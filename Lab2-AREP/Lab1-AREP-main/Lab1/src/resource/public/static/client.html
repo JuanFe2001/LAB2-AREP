@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="design/client.css">
+    <script src="Js/client.js"></script>
+    <title>Movies</title>
+    <style>
+        #boton-consultar {
+            background-color: #4caf50; 
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="consulta">
+            <form action="/film">
+                <label style="color: black;">Escriba el nombre de la pelicula a consultar</label>
+                <br>
+                <br>
+                <input type="text" id="nombre-pelicula" placeholder="Ingrese el nombre de la pelicula" name="name" style="color: black;">
+                <br>
+                <br>
+                <!-- Cambia el valor del botón y agrega el ID para seleccionarlo en CSS -->
+                <input type="button" id="boton-consultar" value="Consultar" onclick="client.consultMovie()">
+            </form>
+        </div>
+        <br>
+        <br>
+        <br>
+        <br>
+        <div id="pelicula" style="color: black;">
+
+        </div>
+    </div>
+</body>
+
+</html>

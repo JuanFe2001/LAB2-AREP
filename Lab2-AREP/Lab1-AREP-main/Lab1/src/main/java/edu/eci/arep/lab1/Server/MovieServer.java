@@ -158,7 +158,7 @@ public class MovieServer {
     private static String getMimeType(String filePetition) {
         return (filePetition.endsWith(".html") || filePetition.endsWith("/")) ? "text/html"
                 : ((filePetition.endsWith(".css")) ? "text/css"
-                : (filePetition.endsWith(".js")) ? "application/javascript" : (filePetition.endsWith(".jpeg")) ? "image/jp2" : "text/plain");
+                : (filePetition.endsWith(".js")) ? "application/javascript" : (filePetition.endsWith(".jpg")) ? "image/jp2" : "text/plain");
     }
 
     /**
@@ -171,8 +171,8 @@ public class MovieServer {
      * estático.
      */
     private static String getStaticFile(String filePetition, OutputStream op) {
-        Path file = (filePetition.equals("/")) ? Paths.get("target/classes/public/static/client.html")
-                : Paths.get("target/classes/public/static" + filePetition);
+        Path file = (filePetition.equals("/")) ? Paths.get("src/resource/public/static/client.html")
+                : Paths.get("src/resource/public/static" + filePetition);
 
         System.out.println(filePetition);
         Charset charset = Charset.forName("ISO_8859_1");
@@ -181,10 +181,10 @@ public class MovieServer {
             String line = null;
 
             while ((line = reader.readLine()) != null) {
-                if (filePetition.contains(".jpeg")) {
+                if (filePetition.contains(".jpg")) {
                     byte[] imageBytes = getAnImage(filePetition);
                     String response = "HTTP/1.1 200 OK\r\n"
-                            + "Content-Type: image/jpeg\r\n"
+                            + "Content-Type: image/jpg\r\n"
                             + "Content-Length: " + imageBytes.length + "\r\n"
                             + "\r\n";
                     op.write(response.getBytes());
@@ -210,7 +210,7 @@ public class MovieServer {
      */
     private static byte[] getAnImage(String filePetition) {
 
-        Path image = Paths.get("target/classes/public/static" + filePetition);
+        Path image = Paths.get("src/resource/public/static" + filePetition);
 
         try {
             return Files.readAllBytes(image);
