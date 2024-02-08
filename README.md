@@ -27,7 +27,9 @@ Por consola nos metemos hasta la carpeta Lab1 del proyecto y desde ahi ponemos l
 
 * mvn clean compile
 * mvn exec:java
+  
 El primer comando nos ayudara a compilar el proyecto y el segundo a ejecutarlo
+
 ## DIRECTAMENTE DEL IDLE
 Si queremos ejecutarlo de la otra forma solo tenemos que correr la clase Main con ayuda de nuestro IDLE
 
@@ -35,6 +37,11 @@ Si queremos ejecutarlo de la otra forma solo tenemos que correr la clase Main co
 En los dos casos lo mas recomendable para ver el funcionamiento de la pagina es utilizar el Navegador de FireFox
 
 ## DEMOSTRACION
+![image](https://github.com/JuanFe2001/LAB2-AREP/assets/123691538/c1a558cb-7f0e-475b-b49a-b510b46e430b)
+![image](https://github.com/JuanFe2001/LAB2-AREP/assets/123691538/477641df-b993-41d2-a215-d370334117c7)
+
+
+Consulta normal
 ![image](https://github.com/JuanFe2001/LAB2-AREP/assets/123691538/89d88e95-f9c3-4e7e-a115-705462d3509c)
 Archivo HTML
 ![image](https://github.com/JuanFe2001/LAB2-AREP/assets/123691538/80732c17-966f-4b87-97bb-3b53840cd662)
