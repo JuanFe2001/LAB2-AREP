@@ -48,7 +48,8 @@ Imagen (Archivo .jpg)
 
 # Generar el JavaDoc
 Para Generar el JavaDoc en la consola en la carpeta Lab1 por consola ponemos el siguiente comando
-mvn site
+
+* mvn site
 
 ## Autor
 * Juan Felipe Vivas Manrique
