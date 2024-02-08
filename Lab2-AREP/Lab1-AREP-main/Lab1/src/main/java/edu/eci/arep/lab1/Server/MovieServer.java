@@ -67,8 +67,8 @@ public class MovieServer {
                 }
             }
 
-           outputLine = (petition.startsWith("/film")) ? movieInformation(petition.replace("/film?name=", ""))
-                    : homePage(petition);
+            outputLine = (petition.startsWith("/film")) ? movieInformation(petition.replace("/film?name=", ""), clientSocket.getOutputStream())
+                    : homePage(petition, clientSocket.getOutputStream());
 
             out.println(outputLine);
             out.close();
@@ -109,7 +109,7 @@ public class MovieServer {
      * @param name el nombre de la película
      * @return una estructura HTML con información de la película y encabezados
      */
-    private static String movieInformation(String name) {
+    private static String movieInformation(String name, OutputStream op) {
         try {
             JsonObject resp = apf.searchMovie(name);
             JsonElement title = resp.get("Title"), poster = resp.get("Poster"), director = resp.get("Director"), language = resp.get("Language"),
@@ -119,7 +119,7 @@ public class MovieServer {
             String outputLine = "HTTP/1.1 200 OK\r\n"
                     + "Content-Type:text/html\r\n"
                     + "\r\n"
-                    + getStaticFile("/movieInfo.html").replace("{Title}", title.toString())
+                    + getStaticFile("/movieInfo.html", op).replace("{Title}", title.toString())
                             .replace("\"{Poster}\"", poster.toString()).replace("{Directors}", director.toString()).replace("{Language}", language.toString()).replace("{Released}", released.toString())
                             .replace("{Plot}", plot.toString()).replace("{Genre}", genre.toString());
 
@@ -136,46 +136,80 @@ public class MovieServer {
      *
      * @return la página principal de la aplicación
      */
-    private static String homePage(String filePetition) {
-        String mimeType = getMimeType(filePetition);
-        System.out.println("mimetype regresado para " + filePetition + ": " + mimeType);
-        String resp = getStaticFile(filePetition);
-
+    private static String homePage(String filePetition, OutputStream op) {
+        
         String outputLine = "HTTP/1.1 200 OK\r\n"
-                + "Content-Type:" + mimeType + "\r\n"
+                + "Content-Type:" + getMimeType(filePetition) + "\r\n"
                 + "\r\n"
-                + resp;
+                + getStaticFile(filePetition, op);
 
         return outputLine;
 
     }
 
+    /**
+     * Método para obtener el tipo MIME de un archivo basado en su extensión o
+     * en la petición del archivo.
+     *
+     * @param filePetition Una cadena que representa la petición de un archivo,
+     * generalmente el nombre del archivo o una ruta.
+     * @return Un valor de cadena que representa el tipo MIME del archivo.
+     */
     private static String getMimeType(String filePetition) {
         return (filePetition.endsWith(".html") || filePetition.endsWith("/")) ? "text/html"
                 : ((filePetition.endsWith(".css")) ? "text/css"
                 : (filePetition.endsWith(".js")) ? "application/javascript" : (filePetition.endsWith(".jpg")) ? "image/jp2" : "text/plain");
     }
-    
-    
-    
-    private static String getStaticFile(String filePetition) {
+
+    /**
+     * Método para obtener el contenido de un archivo estático basado en la
+     * petición del archivo.
+     *
+     * @param filePetition Una cadena que representa la petición de un archivo
+     * estático, generalmente el nombre del archivo o una ruta.
+     * @return Un valor de cadena que representa el contenido del archivo
+     * estático.
+     */
+    private static String getStaticFile(String filePetition, OutputStream op) {
         Path file = (filePetition.equals("/")) ? Paths.get("target/classes/public/static/client.html")
                 : Paths.get("target/classes/public/static" + filePetition);
-
-        Charset charset = Charset.forName("UTF-8");
+        
+        System.out.println(filePetition);
+        Charset charset = Charset.forName("ISO_8859_1");
         StringBuilder outputLine = new StringBuilder();
         try (BufferedReader reader = Files.newBufferedReader(file, charset)) {
             String line = null;
 
             while ((line = reader.readLine()) != null) {
+                if (filePetition.contains(".jpg")) {
+                    byte[] imageBytes = getAnImage(filePetition);
+                    String response = "HTTP/1.1 200 OK\r\n"
+                            + "Content-Type: image/jpg\r\n"
+                            + "Content-Length: " + imageBytes.length + "\r\n"
+                            + "\r\n";
+                    op.write(response.getBytes());
+                    op.write(imageBytes);
+                }
                 System.out.println(line);
                 outputLine.append(line).append("\n");
             }
         } catch (Exception e) {
-            System.err.format("IOException: "+ e.getMessage(), e);
+            System.err.format("IOException: " + e.getMessage(), e);
         }
 
         return outputLine.toString();
+    }
+
+    private static byte[] getAnImage(String filePetition) {
+
+        Path image = Paths.get("target/classes/public/static" + filePetition);
+
+        try {
+            return Files.readAllBytes(image);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }
