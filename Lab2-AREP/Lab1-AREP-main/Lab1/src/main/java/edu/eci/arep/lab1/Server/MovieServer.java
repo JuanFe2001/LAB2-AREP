@@ -137,7 +137,7 @@ public class MovieServer {
      * @return la página principal de la aplicación
      */
     private static String homePage(String filePetition, OutputStream op) {
-        
+
         String outputLine = "HTTP/1.1 200 OK\r\n"
                 + "Content-Type:" + getMimeType(filePetition) + "\r\n"
                 + "\r\n"
@@ -173,7 +173,7 @@ public class MovieServer {
     private static String getStaticFile(String filePetition, OutputStream op) {
         Path file = (filePetition.equals("/")) ? Paths.get("target/classes/public/static/client.html")
                 : Paths.get("target/classes/public/static" + filePetition);
-        
+
         System.out.println(filePetition);
         Charset charset = Charset.forName("ISO_8859_1");
         StringBuilder outputLine = new StringBuilder();
@@ -200,6 +200,14 @@ public class MovieServer {
         return outputLine.toString();
     }
 
+    /**
+     * Obtiene los bytes de una imagen ubicada en el sistema de archivos.
+     *
+     * @param filePetition Ruta del archivo de imagen, relativa al directorio
+     * "target/classes/public/static".
+     * @return Un array de bytes que representa los datos de la imagen. Retorna
+     * null si hay algún problema al leer el archivo.
+     */
     private static byte[] getAnImage(String filePetition) {
 
         Path image = Paths.get("target/classes/public/static" + filePetition);
