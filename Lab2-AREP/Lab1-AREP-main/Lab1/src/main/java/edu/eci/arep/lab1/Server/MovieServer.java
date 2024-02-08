@@ -158,7 +158,7 @@ public class MovieServer {
     private static String getMimeType(String filePetition) {
         return (filePetition.endsWith(".html") || filePetition.endsWith("/")) ? "text/html"
                 : ((filePetition.endsWith(".css")) ? "text/css"
-                : (filePetition.endsWith(".js")) ? "application/javascript" : (filePetition.endsWith(".jpg")) ? "image/jp2" : "text/plain");
+                : (filePetition.endsWith(".js")) ? "application/javascript" : (filePetition.endsWith(".jpeg")) ? "image/jp2" : "text/plain");
     }
 
     /**
@@ -181,10 +181,10 @@ public class MovieServer {
             String line = null;
 
             while ((line = reader.readLine()) != null) {
-                if (filePetition.contains(".jpg")) {
+                if (filePetition.contains(".jpeg")) {
                     byte[] imageBytes = getAnImage(filePetition);
                     String response = "HTTP/1.1 200 OK\r\n"
-                            + "Content-Type: image/jpg\r\n"
+                            + "Content-Type: image/jpeg\r\n"
                             + "Content-Length: " + imageBytes.length + "\r\n"
                             + "\r\n";
                     op.write(response.getBytes());
