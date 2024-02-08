@@ -38,7 +38,8 @@ En los dos casos lo mas recomendable para ver el funcionamiento de la pagina es 
 
 ## DEMOSTRACION
 ![image](https://github.com/JuanFe2001/LAB2-AREP/assets/123691538/c1a558cb-7f0e-475b-b49a-b510b46e430b)
-![image](https://github.com/JuanFe2001/LAB2-AREP/assets/123691538/477641df-b993-41d2-a215-d370334117c7)
+![image](https://github.com/JuanFe2001/LAB2-AREP/assets/123691538/3ce9b297-b24f-4e91-8e0b-af32415a0118)
+
 
 
 Consulta normal
